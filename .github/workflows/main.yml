@@ -21,5 +21,25 @@ jobs:
       
     - run: |
         dotnet build
+        
+    - run: |
+        dotnet test
+        
+    - uses: azure/docker-login@v1
+      with:
+        #login-server: contoso.azurecr.io
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    
+    - run: |
+        docker build . -t michaelkovacina/sample1722:${{ github.sha }} -t michaelkovacina/sample1722:latest
+        
+    - run: |
+        docker push michaelkovacina/sample1722:${{ github.sha }}
+    
+    - run: |
+        docker push michaelkovacina/sample1722:latest
+
+    
       
       
